@@ -8,7 +8,7 @@ public partial class Main : Form
 {
     private readonly BindingList<MacroItem> _macros = [];
 
-    public Main()
+    public Main() 
     {
         InitializeComponent();
         LoadMacros();
@@ -20,24 +20,6 @@ public partial class Main : Form
         {
             MessageBox.Show($@"An unhandled exception occurred: {args.ExceptionObject}", @"Error", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
-        };
-
-        FormClosing += (sender, args) =>
-        {
-            if (MacroHelper.GetMacros() == _macros.ToDictionary(m => m.Alias, m => m.Command)) return;
-            var result = MessageBox.Show(@"You have unsaved changes. Do you want to save them?", @"Unsaved Changes",
-                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-            switch (result)
-            {
-                case DialogResult.Yes:
-                    SaveButtonClick(sender, args);
-                    break;
-                case DialogResult.Cancel:
-                    args.Cancel = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         };
     }
 
